@@ -1,0 +1,72 @@
+
+a.butt, a.butt-up{
+    background-color: #007bff;
+    color: white;
+    border-color: #5cb85c;
+    margin:5px;
+    padding: 5px 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+a.butt:link, a.back:visited,  {
+    background-color: #11aa44;
+    color: white;
+}
+
+a.butt-up:link {
+    margin:2px;
+    padding: 5px 10px;
+   text-align: center;
+    border-radius: 5px;
+}
+
+
+a.butt:hover, a.butt-up:hover {
+	background-color: black;
+    color: white;
+    border-color: #419641;
+	text-decoration: none;
+	
+}
+
+
+a.search-button{
+    background-color: #007bff;
+    color: white;
+    border-color: #5cb85c;
+    margin:5px;
+    padding: 5px 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+a.search-button:link  {
+    background-color: #dc3545;
+    color: white;
+}
+
+a.search-button:hover {
+	background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+	text-decoration: none;
+}
+
+
+
+#student,#student2{
+	
+background-color: #5cb85c;
+    color: white;
+    border-color: #5cb85c;	
+    	text-decoration: none;
+}
+#student:hover,#student2:hover {
+	background-color: red;
+    color: white;
+    border-color: red;
+	
+	
+}
+table, th, td {
+    border: 1px solid black;
+}

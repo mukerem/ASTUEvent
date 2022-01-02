@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+        {% load static %}
+        {% load filter %}
+        {% load widget_tweaks %}
+            {% include "webpages/librarian_page.html" %}
+    <title>user view by librarian</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+
+        {% block search %}
+            <div class = "container col-5" align="right" style="margin-left:40%;">
+            <form  method="post" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form.visible_fields %}
+                        {% if field.name == 'search_engine' %}
+                            <div class="col-md-7">
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% else %}
+                           <div class="col-md-3 ">
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+
+                    <div class="col-md-2">
+                    <button type="submit" class = "btn btn-primary"> search</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <br>
+        {% endblock %}
+
+    </head>
+    <body>
+
+        {% if not user%}
+        <div class="col-sm-8" style="margin-left:100px;">
+            <h3>There is no result</h3>
+        </div>
+        {% endif %}
+        {% for i in user %}
+        <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 22%;"><strong>Name:</strong></td>
+                        <td style="width: 40%;">{{i.name}} {{i.middle_name}}  {{i.last_name}}</td>
+                        <td style="width: 38%;" align="right">
+                            <input type="button"  id ="button-{{i.id}}" class="btn btn-primary"  onclick="userFun({{i.id}})"
+                                value="view profile" >
+                            <a class="btn btn-danger" href="{% url 'DeleteUserConfirm' i.id %}" style="margin-left:5px;">Delete</a>
+                            <a class="btn btn-success" href="{% url 'view-user-history-by-librarian' i.id %}" style="margin-left:5px;">history</a>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+           <div class="row" id="user-{{i.id}}"  style="display:none;">
+
+            <div class="col-sm-9">
+                <table class="table table-success" >
+                        <tr>
+                            <td style="width: 30%;"><strong>User Id:</strong></td>
+                            <td style="width: 7%;">{{i.user_id}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Phone:</strong></td>
+                            <td style="width: 70%;">{{i.phone}}</td>
+                        </tr>
+                        {% if i.year%}
+                        <tr>
+                            <td style="width: 30%;"><strong>Year:</strong></td>
+                            <td style="width: 70%;">{{i.year}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Department:</strong></td>
+                            <td style="width: 70%;">{{i.department}}</td>
+                        </tr>
+                        {%endif%}
+                        {% if i.email%}
+                        <tr>
+                            <td style="width: 30%;"><strong>E-mail:</strong></td>
+                            <td style="width: 70%;">{{i.email}}</td>
+                        </tr>
+                        {%endif%}
+
+                        <tr>
+                            <td style="width: 30%;"><strong>Register date:</strong></td>
+                            <td style="width: 70%;">{{i.register_date}}</td>
+                        </tr>
+                </table>
+
+            </div>
+            <div class="col-sm-3">
+                <img src="{% static i.image %}"  height="180" width="200">
+            </div>
+            </div>
+
+        </div>
+        <div class="container col-8"><hr></div>
+        {% endfor %}
+
+
+        <script>
+    function userFun(par) {
+    var y ="button-"+par;
+    var x = document.getElementById("user-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+
+</script>
+
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

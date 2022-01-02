@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% include "webpages/user_homepage.html" %}
+
+    <title>Interest delete</title>
+    {%load static%}
+    <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+    <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+
+</head>
+    <body>
+        {% load widget_tweaks %}
+        <br>
+        <div class="col-sm-6" style="margin-left:100px;">
+        <h3>Are you sure?</h3><br>
+
+        <h5>Are you sure you want to delete the interest {{interest.category.name}}?</h5><br>
+            <h4>priority:  {{interest.priority}}</h4>
+        <br><br><br>
+        <a class="btn btn-danger" href="{% url 'deleteInterest' interest.id  %}" style="margin-left:15px;">Yes,I'm sure</a>
+        <a class="btn btn-secondary" href="{% url 'NotDelete' 'interest' %}" style="margin-left:15px;">No, take me back</a>
+        </div>
+    </body>
+    <br><br><br><br><br><br><br><br><br>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

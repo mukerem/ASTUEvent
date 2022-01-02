@@ -1,0 +1,4 @@
+<option value="">------------</option>
+{% for data in book%}
+    <option value="{{data.id}}">{{data.book.code}}  {{data.specific_code}}</option>
+{% endfor %}

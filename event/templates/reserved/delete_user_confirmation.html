@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% include "webpages/librarian_page.html" %}
+
+    <title>user delete by librarian</title>
+    {%load static%}
+    <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+    <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+
+</head>
+    <body>
+        {% load widget_tweaks %}
+        <br>
+        <div class="col-sm-8" style="margin-left:100px;">
+
+        <h3>Are you sure?</h3><br>
+            {% if borrow %}
+            <h5>Are you sure you want to delete the user {{user.name}} {{user.middle_name}}?
+                All of the following related items will be deleted:</h5>
+            <h4>Some books are not returned from {{user.name}} {{user.middle_name}}, such as</h4><br>
+            {% for i in borrow%}
+                <STRONG>title:</STRONG>  {{i.book.title}}<br>
+                <STRONG>code:</STRONG>  {{i.book.code}}<br>
+                <STRONG>Specific code:</STRONG>  {{i.specific_code}}<br>
+                <STRONG>Date of Borrow:</STRONG>  {{i.borrow_date}}<br>
+                <br><br>
+
+            {% endfor %}
+        {% endif %}
+        <h5>Are you sure you want to delete the user {{user.name}} {{user.middle_name}}?</h5>
+        <br><br><br>
+        <a class="btn btn-danger" href="{% url 'DeleteUser' user.id  %}" style="margin-left:15px;">Yes,I'm sure</a>
+        <a class="btn btn-secondary" href="{% url 'NotDelete' 'user_delete' %}" style="margin-left:15px;">No, take me back</a>
+        </div>
+    </body>
+    <br><br><br><br><br><br><br><br><br>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

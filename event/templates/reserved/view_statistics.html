@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+        {% load static %}
+        {% load filter %}
+        {% load widget_tweaks %}
+            {% include "webpages/admin_page.html" %}
+        <title>view statistics</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+
+
+    </head>
+    <body>
+
+        {% if not top_book and not top_user %}
+            <h4>There is no result </h4><br>
+        {% endif %}
+
+        {% if top_book %}
+        <div class="container col-10">
+             <br><h4>Top borrow books </h4><br>
+            <table class="table table-success" >
+            <tr>
+                <th style="width: 10%;">Rank</th>
+                <th style="width: 10%;">Code</th>
+                <th style="width: 35%;">Title</th>
+                <th style="width: 35%;">Author</th>
+                <th style="width: 10%;">Point</th>
+            </tr>
+            </table>
+
+            {% for rank,point,book in top_book %}
+                <table class="table table-primary" >
+                    <tr>
+                        <td style="width: 10%;">{{rank}}</td>
+                        <td style="width: 10%;">{{book.code}}</td>
+                        <td style="width: 35%;">{{book.title}}</td>
+                        <td style="width: 35%;">{{book.author}}</td>
+                        <td style="width: 10%;">{{point}}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if top_user %}
+        <div class="container col-10">
+            <br><br><h4>Top borrow users </h4><br>
+            <table class="table table-primary" >
+                <tr>
+                    <th style="width: 15%;">Rank</th>
+                    <th style="width: 20%;">User id</th>
+                    <th style="width: 50%;">Name</th>
+                    <th style="width: 15%;">Point</th>
+                </tr>
+            </table>
+
+            {% for rank,point,user in top_user %}
+                <table class="table table-success" >
+                    <tr>
+                        <td style="width: 15%;">{{rank}}</td>
+                        <td style="width: 20%;">{{user.user_id}}</td>
+                        <td style="width: 50%;">{{user.name}} {{user.middle_name}} {{user.last_name}}</td>
+                        <td style="width: 15%;">{{point}}</td>
+                    </tr>
+                </table>
+
+            {% endfor %}
+        </div>
+        {% endif %}
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

@@ -1,0 +1,63 @@
+
+#user-home-page, #base-page, #front-page{
+	background-color: white;
+	background-image: url("../Images/20_21.jpg");
+	background-position: 100% 100%;
+    background-repeat: no-repeat;
+}
+.homepage{
+	background-color: rgb(120,120,120);
+	padding:30px;
+}
+.header h1,h2{	 
+	margin:0;
+	padding:40px;
+	color: #000;
+	text-align:center;
+}
+
+.student-header{
+	background-color: rgb(120,120,120);
+	padding:40px;
+}
+
+.student-header h1,h2{	 
+	margin:10px;
+	padding:40px;
+	color: #000;
+	text-align:center;
+}
+
+li a:hover{
+	background-color:white;
+	color:black;
+	margin:0;
+    border-radius: 5px;
+
+}
+li a{
+	color:#ffffff;
+	font-size:25px;
+}
+.footer{
+    background-image: url("../Images/17_39.jpg");
+	background-position: 100% 100%;
+    background-repeat: no-repeat;
+	width: 100%;
+	position:static;
+	left:0;
+	bottom:0;
+	padding: 6em;
+    color: white;
+    text-align: center;
+		
+}
+.material{
+	background-color: #5cb85c;
+    color: white;
+    border-color: #5cb85c;		
+}
+.student-view{
+	font-size:18px;
+	color:#6b1401;		
+}

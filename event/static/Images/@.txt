@@ -1,0 +1,17 @@
+************************** download tools
+#############
+pip install package_name
+#############
+1. python 3.6
+2. django 2.0.5
+3. pip
+4. pillow
+5. django-widget-tweaks
+6. easy_thumbnails 50%
+7. django-collectionfield ** models, modify at line 226
+8.  pyinstaller 50%
+9.  django-mathfilters
+************
+10. Icons8
+11. sublime
+12. mozila, chrome 

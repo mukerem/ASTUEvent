@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+        {% load static %}
+        {% load filter %}
+        {% load widget_tweaks %}
+            {% include "webpages/user_homepage.html" %}
+    <title>View favourite category</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+
+
+    </head>
+    <body>
+        <div class = "container col-4">
+        <form enctype="multipart/form-data" method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+
+                <table class="error">
+                    <tr><td>
+                        <b> {{ form.non_field_errors|error_truncate}}</b>
+                    </td></tr>
+                </table>
+            <br>
+            {% endif %}
+
+
+            {% for field in form.visible_fields %}
+                <table style="width:100%; margin-top:0px;">
+                    <tr >
+                        <td style="width:20%;" align="center">
+                            <strong>{{ field.label_tag }}</strong>
+                        </td>
+                        <td style="width:55%; vertical-align: top;">
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" %}
+                            {% for  error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+
+
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                        </td>
+                        <td style="width:25%; vertical-align: top;" align="center">
+                    <button type="submit" class = "btn btn-primary" > view</button>
+                        </td>
+                    </tr>
+                </table>
+            {% endfor %}
+
+
+        </form>
+        </div>
+
+
+        <div class="container col-8">
+            {% if date  %}
+                {% if event %}
+                    <br><h4>{{date}} event review</h4><br><br>
+                {% else %}
+                    <br><h4>There is no event  on {{date}}</h4><br>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <br>
+
+        {% for i in event %}
+            <div class="container col-9">
+                <table class="table table-striped" >
+                    <tr>
+                        <td style="width: 23%;"><strong>title:</strong></td>
+                        <td style="width: 52%;">{{i.title}}</td>
+                        <td style="width: 10%;" align="right">
+                            <input type="button"  id ="button2-{{i.id}}" class="btn btn-primary"  onclick="myFunction2({{i.id}})"
+                            value="view info" style="margin-left:15px;">
+                        </td>
+                        <!--<td align="right" style="width: 15%;">-->
+                            <!--<a class="btn btn-success" href="{% url 'addToCalendar' i.id 'favourite'%}" style="margin-left:15px;">add to calendar</a>-->
+                           <!--</td>-->
+                        {% with event_id=i.id %}
+                            {% if calendar|get_item:event_id %}
+                            <td align="right" style="width: 15%;">
+                                <a class="btn btn-danger" href="{% url 'addToCalendar' i.id 'favourite' %}" >remove calendar</a>
+                            </td>
+
+                            {% else %}
+                            <td align="right" style="width: 15%;">
+                                <a class="btn btn-success" href="{% url 'addToCalendar' i.id 'favourite' %}" >add to calendar</a>
+                            </td>
+                            {% endif %}
+                        {% endwith %}
+                    </tr>
+                </table>
+
+            </div>
+            <div class="container col-9" id="event-{{i.id}}" style="display:none;">
+                    <table class="table table-striped">
+
+                        <tr>
+                            <td style="width: 25%;"><strong>starting time and date:</strong></td>
+                            <td style="width: 70%;">{{i.start_time}}</td>
+                            <td style="width: 5%"></td>
+                        </tr>
+                        {% if i.end_time %}
+                            <tr>
+                                <td style="width: 25%;"><strong>ending time and date:</strong></td>
+                                <td style="width: 70%;">{{i.end_time}}</td>
+                                <td style="width: 5%"></td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td style="width: 25%;"><strong>venue:</strong></td>
+                            <td style="width: 70%;">{{i.venue}}</td>
+                            <td style="width: 5%"></td>
+                        </tr>
+                        {%if i.category%}
+                        <tr>
+                             <td style="width: 25%;"><strong>category:</strong></td>
+                             <td style="width: 70%;">{{i.category.name}}</td>
+                            <td style="width: 5%"></td>
+                        </tr>
+                        {%endif%}
+                        <tr>
+                            <td style="width: 25%;"><strong>organization:</strong></td>
+                            <td style="width: 70%;">{{i.organizer.name}}</td>
+                            <td style="width: 5%"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25%;"><strong>posted date:</strong></td>
+                            <td style="width: 60%;">{{i.register_date}}</td>
+                            <td style="width: 15%;"><input type="button"  id ="button3-{{i.id}}" class="btn btn-primary"  onclick="myFunction3({{i.id}})"
+                              value="view description" ></td>
+                        </tr>
+
+                    </table>
+            </div>
+            <div class="container col-9" id ="description-{{i.id}}" style="display:none;">
+                {% if i.description %}
+
+                <p>{{i.description}}</p>
+
+                {% endif %}
+            </div>
+
+
+                <div class="container col-9"> <hr> </div>
+
+
+
+        {% endfor %}
+
+
+        <script>
+
+function myFunction2(par) {
+    var y ="button2-"+par;
+    var x = document.getElementById("event-"+par);
+    var z = document.getElementById("description-"+par);
+    z.style.display = "none";
+    var t ="button3-"+par;
+    document.getElementById(t).value="view  description";
+    document.getElementById(t).style.backgroundColor='#007bff';
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+
+        document.getElementById(y).value="hide  info";
+
+            document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view info";
+                document.getElementById(y).style.backgroundColor='#007bff';
+
+
+    }
+}
+function myFunction3(par) {
+    var y ="button3-"+par;
+    var z= "description-"+par
+    var x = document.getElementById(z);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  description";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view description";
+                document.getElementById(y).style.backgroundColor='#007bff';
+
+    }
+}
+</script>
+
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

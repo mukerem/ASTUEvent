@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+		<link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+
+
+        <div class="row" id="user-home-page">
+            <div class="col-sm-4">
+                <img src="{% static 'Images/cd.png' %}" height="110" width="300">
+            </div>
+            <div class="col-sm-8" >
+                 <div class="col-sm-8" align="right" style="margin-top:15px;;color:white;font-size:20px;">
+                     Knowledge is not what is memorised.<br>
+                     Knowledge is what benefits.
+		        </div>
+		    </div>
+        </div>
+
+        <nav class="navbar navbar-expand-md bg-dark navbar-light" >
+          <div class="main" style="margin-left:5%;">
+            <ul class="mainnav">
+
+                <li class="hassubs"><a href="#">admin</a>
+                    <ul class="dropdown">
+                        <li class="subs hassubs"><a href="/admin-list/">view</a></li>
+						<li class="subs hassubs"><a href="/adminRegister/">register</a></li>
+
+                    </ul>
+                </li>
+                <li class="hassubs"><a href="#">librarian</a>
+                    <ul class="dropdown">
+                        <li class="subs hassubs"><a href="/view-librarian-by-admin/">view</a></li>
+						<li class="subs hassubs"><a href="/librarianRegister/">register</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="hassubs"><a href="#">book</a>
+                    <ul class="dropdown">
+                        <li class="subs hassubs"><a href="/book-view-by-admin/">view</a></li>
+                        <li class="subs hassubs"><a href="#">register</a>
+                            <ul class="dropdown">
+                                <li class="subs"><a href="/bookRegister/">Insert</a></li>
+                                <li class="subs"><a href="/bookRegisterByCodeGenerator/">Generate</a></li>
+                                <li class="subs"><a href="/upload-csv/">upload CSV</a></li>
+                            </ul>
+                        </li>
+                        <li class="subs hassubs"><a href="/addBook/">add</a></li>
+                        <li class="subs hassubs"><a href="/view-lost-books/">lost books</a></li>
+
+                    </ul>
+                </li>
+                <li class="hassubs"><a href="#">borrow</a>
+                    <ul class="dropdown">
+                        <li class="subs hassubs"><a href="/view-book-borrow-by-admin/">view</a></li>
+                        <li class="subs"><a href="/view-unreturn-book-by-admin/">unreturned</a></li>
+                        <li class="subs"><a href="/search-book-borrow-by-admin/">search</a></li>
+
+                    </ul>
+                </li>
+                <li class="hassubs"><a href="#">return</a>
+                    <ul class="dropdown">
+                        <li class="subs hassubs"><a href="/admin/view-book-return/">view</a></li>
+                        <li class="subs"><a href="/search-return-book-by-admin/">search</a></li>
+
+                    </ul>
+                </li>
+                <li class="hassubs"><a href="#">statistics</a>
+                    <ul class="dropdown">
+                        <li class="subs hassubs"><a href="/view-statistics/">view</a></li>
+                        <li class="subs"><a href="/print-statistics/">print</a></li>
+
+                    </ul>
+                </li>
+
+            </ul>
+              <a class="btn btn-secondary" href="{% url 'logout' 'admin' %}" style="float:right;">Logout</a>
+              <a class="btn btn-secondary" href="/viewAdminProfile/" style="margin-right:5px;float:right;">profile</a>
+
+            <br style="clear: both;">
+        </div>
+        </nav>
+
+       <br>
+        {% include "webpages/message.html" %}
+        <br>
+            </head>
+
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ASTU Event Organizer</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+
+        <div class="jumbotron" style="background-color: #2cb8dc" id="front-page">
+                <div class="row" >
+                    <div class="col-sm-3">
+
+                        <img src="{% static 'Images/cd.png' %}" height="100" width="200">
+                    </div>
+                    <div class="col-sm-5">
+                        <h3 style="color: white">Well come to ASTU Event Organizer.</h3><br/>
+                        <h5 style="color: #ececec">This is a free site where you can get full information about<br> an events that is hosted in ASTU.</h5>
+                    </div>
+                    <div class="col-sm-4" >
+
+                    <a class="btn btn-secondary" href="/login/">login</a>
+                    <a class="btn btn-secondary" href="/user-register/">user signup</a>
+                    <a class="btn btn-secondary" href="/organization-register/">organizer signup</a><br><br>
+                    </div>
+                </div>
+        </div>
+    </head>
+    <br><br>
+
+</html>

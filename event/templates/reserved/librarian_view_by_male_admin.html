@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+        {% load static %}
+        {% load filter %}
+        {% load widget_tweaks %}
+            {% include "webpages/admin_page.html" %}
+    <title>librarian view by admin</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+
+
+    </head>
+    <body>
+        {% block search %}
+            <div class = "container col-5" align="right" style="margin-left:40%;">
+            <form  method="post" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form.visible_fields %}
+                        {% if field.name == 'search_engine' %}
+                            <div class="col-md-7">
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% else %}
+                           <div class="col-md-3 ">
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+
+                    <div class="col-sm-2">
+                    <button type="submit" class = "btn btn-primary"> search</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <br>
+        {% endblock %}
+        {% if not female_librarian and not male_librarian %}
+            <div class="container col-8">
+                <br><h4>There is no result</h4><br>
+            </div>
+        {% endif %}
+        {% if male_librarian %}
+            <div class="container col-8">
+                <h4 style="margin-left:100px;">male librarians</h4><br>
+            </div>
+        {% endif %}
+        {% for i in male_librarian %}
+        <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Name:</strong></td>
+                        <td style="width: 50%;">{{i.name}} {{i.middle_name}}  {{i.last_name}}</td>
+                        <td style="width: 25%;" align="right">
+                            <input type="button"  id ="male-button-{{i.id}}" class="btn btn-primary"  onclick="maleLibrarianFun({{i.id}})"
+                      value="view profile" >
+                            <a class="btn btn-danger" href="{% url 'DeleteLibrarianConfirm' i.id %}" style="margin-left:15px;">Delete</a>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+           <div class="row" id="male-librarian-{{i.id}}"  style="display:none;">
+
+            <div class="col-sm-9">
+                    <table class="table table-success">
+                        <tr>
+                            <td style="width: 33%;"><strong>Librarian Id:</strong></td>
+                            <td style="width: 67%;">{{i.librarian_id}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 33%;"><strong>Phone:</strong></td>
+                            <td style="width: 67%;">{{i.phone}}</td>
+                        </tr>
+                        {% if i.year%}
+                        <tr>
+                            <td style="width: 33%;"><strong>Year:</strong></td>
+                            <td style="width: 67%;">{{i.year}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 33%;"><strong>Department:</strong></td>
+                            <td style="width: 67%;">{{i.department}}</td>
+                        </tr>
+                        {%endif%}
+                        {% if i.email%}
+                        <tr>
+                            <td style="width: 33%;"><strong>E-mail:</strong></td>
+                            <td style="width: 67%;">{{i.email}}</td>
+                        </tr>
+                        {%endif%}
+
+                        <tr>
+                            <td style="width: 33%;"><strong>Register date:</strong></td>
+                            <td style="width: 67%;">{{i.register_date}}</td>
+                        </tr>
+                </table>
+            </div>
+            <div class="col-sm-3">
+                <img src="{% static i.image %}"  height="180" width="200">
+            </div>
+            </div>
+          <hr>
+        </div>
+
+        {% endfor %}
+
+        {% if female_librarian %}
+            <div class="container col-8">
+                <h4 style="margin-left:100px;">female librarians</h4><br>
+            </div>
+        {% endif %}
+        {% for i in female_librarian %}
+        <div class="container col-8">
+                <table  class="table table-primary">
+                    <tr>
+                        <td style="width: 25%;"><strong>Name:</strong></td>
+                        <td style="width: 50%;">{{i.name}} {{i.middle_name}}  {{i.last_name}}</td>
+                        <td style="width: 25%;" align="right">
+                            <input type="button"  id ="female-button-{{i.id}}" class="btn btn-primary"  onclick="femaleLibrarianFun({{i.id}})"
+                            value="view profile" >
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+           <div class="row" id="female-librarian-{{i.id}}"  style="display:none;">
+
+            <div class="col-sm-9">
+                    <table class="table table-success">
+                        <tr>
+                            <td style="width: 33%;"><strong>Librarian Id:</strong></td>
+                            <td style="width: 67%;">{{i.librarian_id}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 33%;"><strong>Phone:</strong></td>
+                            <td style="width: 67%;">{{i.phone}}</td>
+                        </tr>
+                        {% if i.year%}
+                        <tr>
+                            <td style="width: 33%;"><strong>Year:</strong></td>
+                            <td style="width: 67%;">{{i.year}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 33%;"><strong>Department:</strong></td>
+                            <td style="width: 67%;">{{i.department}}</td>
+                        </tr>
+                        {%endif%}
+                        {% if i.email%}
+                        <tr>
+                            <td style="width: 33%;"><strong>E-mail:</strong></td>
+                            <td style="width: 67%;">{{i.email}}</td>
+                        </tr>
+                        {%endif%}
+
+                        <tr>
+                            <td style="width: 33%;"><strong>Register date:</strong></td>
+                            <td style="width: 67%;">{{i.register_date}}</td>
+                        </tr>
+                </table>
+            </div>
+            </div>
+            <hr>
+        </div>
+
+        {% endfor %}
+        <script>
+    function maleLibrarianFun(par) {
+    var y ="male-button-"+par;
+    var x = document.getElementById("male-librarian-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+function femaleLibrarianFun(par) {
+    var y ="female-button-"+par;
+    var x = document.getElementById("female-librarian-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+</script>
+
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+        {% load static %}
+        {% load filter %}
+            {% include "webpages/user_homepage.html" %}
+        <title>view favourite organization</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+
+
+    </head>
+    <body>
+        <br><br>
+        {% for i in  organization %}
+        <div class = "container col-8">
+            <div class="row">
+            <div class="col-sm-3">
+                <img src="{% static i.image %}"  height="100" width="150">
+
+            </div>
+            <div class="col-sm-9">
+                    <table class="table table-striped">
+                        <tr>
+                            <td style="width: 30%;"><strong>Name:</strong></td>
+                            <td style="width: 70%;">{{i.name}}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 30%;"><strong>Phone:</strong></td>
+                            <td style="width: 70%;">{{i.phone}}</td>
+
+
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>E-mail:</strong></td>
+                            <td style="width: 70%;">{{i.email}}</td>
+                        </tr>
+
+                        </table>
+
+            </div>
+        </div>
+            <div id ="organizer-{{i.id}}" style="display:none;">
+
+                {% if i.description%}
+                {{i.description}}<br><br>
+                {% endif %}
+            </div>
+            <div align="right">
+                {% if i.description  %}
+               <input type="button"  id ="button-{{i.id}}" class="btn btn-primary"  onclick="myFunction({{i.id}})" value="more profile">
+                {% endif %}
+                <a class="btn btn-success" href="{% url 'viewOrganizationEvent' i.id %}">view event</a>
+                <a class="btn btn-danger" href="{% url 'removeFavouriteStore' i.id %}">remove from favourite</a>
+                <br><br>
+            </div>
+            <hr>
+
+
+            </div>
+            {% endfor %}
+
+        <script>
+    function myFunction(par) {
+    var y ="button-"+par;
+    var x = document.getElementById("organizer-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        document.getElementById(y).value="less profile";
+                document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="more profile";
+                document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+</script>
+
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

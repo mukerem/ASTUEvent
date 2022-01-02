@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% include "webpages/librarian_page.html" %}
+
+    <title>Book return</title>
+    {%load static%}
+    {%load filter%}
+    <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+    <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+    <link rel="stylesheet" href="{% static 'files/style8.css' %}"  type="text/css" >
+
+</head>
+    <body>
+        {% load widget_tweaks %}
+        <div class = "container col-5">
+        <form enctype="multipart/form-data" id="returnForm" data-user-url="{% url 'ajax_load_book_list' %}" method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+
+                <table class="error">
+                    <tr><td>
+                        <b> {{ form.non_field_errors|error_truncate}}</b>
+                    </td></tr>
+                </table>
+            <br>
+            {% endif %}
+
+
+            {% for field in form.visible_fields %}
+                <div class = "form-group">
+                    {{ field.label_tag }}
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" %}
+                            {% for  error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+
+
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+            <button type="submit" class = "btn btn-primary" > return</button>
+        </form>
+        </div>
+        <script src="{% static 'files/bootstrap/jquery/jquery-3.3.1.min.js' %}"></script>
+            <script>
+                $("#id_book_code").focus(function (){
+                    $("#id_book_code").html("");
+                    var url = $("#returnForm").attr("data-user-url");
+                    var userId = document.getElementById("id_user_id").value;
+
+                    $.ajax({
+                        url: url,
+                        data: {
+                            'user': userId
+                        },
+                        success: function (data) {
+                            $("#id_book_code").html(data);
+                        }
+                   });
+                });
+            </script>
+
+
+
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

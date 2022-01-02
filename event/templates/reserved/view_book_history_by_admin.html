@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+            {% include "webpages/admin_page.html" %}
+        {% load static %}
+        {% load filter %}
+        <title>book borrow history</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+
+
+    </head>
+    <body>
+    <div class="container col-8">
+        <h4>{{title}}(code {{code}}) borrow history</h4><br>
+    </div>
+        {% for i in borrow %}
+        {% if i.user.sex == sex %}
+            <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>User:</strong></td>
+                        <td style="width: 50%;">{{i.user.name}} {{i.user.middle_name}}  {{i.user.last_name}}</td>
+                        <td style="width: 25%;" align="right">
+                            <input type="button"  id ="button-{{i.id}}" class="btn btn-primary"  onclick="myFunction({{i.id}})"
+                      value="view profile" ></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+                <div class="row" id="user-{{i.id}}"  style="display:none;">
+
+                    <div class="col-sm-9">
+                        <table class="table table-success">
+                            <tr>
+                                <td style="width: 33%;"><strong>User Id:</strong></td>
+                                <td style="width: 67%;">{{i.user.user_id}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 33%;"><strong>Phone:</strong></td>
+                                <td style="width: 67%;">{{i.user.phone}}</td>
+                            </tr>
+                            {% if i.user.year%}
+                                <tr>
+                                    <td style="width: 33%;"><strong>Year:</strong></td>
+                                    <td style="width: 67%;">{{i.user.year}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 33%;"><strong>Department:</strong></td>
+                                    <td style="width: 67%;">{{i.user.department}}</td>
+                                </tr>
+                            {%endif%}
+                            {% if i.user.email%}
+                                <tr>
+                                    <td style="width: 33%;"><strong>E-mail:</strong></td>
+                                    <td style="width: 67%;">{{i.user.email}}</td>
+                                </tr>
+                            {%endif%}
+
+                            <tr>
+                                <td style="width: 33%;"><strong>Register date:</strong></td>
+                                <td style="width: 67%;">{{i.user.register_date}}</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="{% static i.user.image %}"  height="180" width="200">
+                    </div>
+                </div>
+            </div>
+            <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Specific code:</strong></td>
+                        <td style="width: 75%;">{{i.specific_code}} </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Date of Borrow:</strong></td>
+                        <td style="width: 75%;">{{i.borrow_date}} </td>
+
+                    </tr>
+                </table>
+            </div>
+            {% if i.librarian %}
+                <div class="container col-8">
+                    <table  class="table table-striped">
+                        <tr>
+                            <td style="width: 25%;"><strong>From Librarian:</strong></td>
+                            <td style="width: 50%;">{{i.librarian.name}} {{i.librarian.middle_name}}  {{i.librarian.last_name}}</td>
+                            <td style="width: 25%;" align="right">
+                                <input type="button"  id ="button4-{{i.id}}" class="btn btn-primary"  onclick="librarianFun({{i.id}})"
+                                    value="view profile" style="margin-left:15px;"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="container col-8">
+                    <div class="row" id="librarian-{{i.id}}"  style="display:none;">
+
+                        <div class="col-sm-9">
+                            <table class="table table-success">
+                                <tr>
+                                    <td style="width: 33%;"><strong>Librarian Id:</strong></td>
+                                    <td style="width: 67%;">{{i.librarian.librarian_id}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 33%;"><strong>Phone:</strong></td>
+                                    <td style="width: 67%;">{{i.librarian.phone}}</td>
+                                </tr>
+                                {% if i.librarian.year%}
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Year:</strong></td>
+                                        <td style="width: 67%;">{{i.librarian.year}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Department:</strong></td>
+                                        <td style="width: 67%;">{{i.librarian.department}}</td>
+                                    </tr>
+                                {%endif%}
+                                {% if i.librarian.email%}
+                                    <tr>
+                                        <td style="width: 33%;"><strong>E-mail:</strong></td>
+                                        <td style="width: 67%;">{{i.librarian.email}}</td>
+                                    </tr>
+                                {%endif%}
+
+                                <tr>
+                                    <td style="width: 33%;"><strong>Register date:</strong></td>
+                                    <td style="width: 67%;">{{i.librarian.register_date}}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <img src="{% static i.librarian.image %}"  height="180" width="200">
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="container col-8">
+                    <table  class="table table-striped">
+                        <tr>
+                            <td style="width: 25%;"><strong>From Librarian:</strong></td>
+                            <td style="width: 75%;">The librarian is already deleted</td>
+                        </tr>
+                    </table>
+                </div>
+            {% endif %}
+
+            <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Date of Return:</strong></td>
+                        {% if i.return_date %}
+                            <td style="width: 75%;">{{i.return_date}} </td>
+                        {% else %}
+                            <td style="color:red;width: 75%;"><strong>Not returned</strong>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+            {% if i.return_date %}
+                {% if i.return_to %}
+                <div class="container col-8">
+                        <table  class="table table-striped">
+                            <tr>
+                                <td style="width: 25%;"><strong>Return to:</strong></td>
+                                <td style="width: 50%;">{{i.return_to.name}} {{i.return_to.middle_name}}  {{i.return_to.last_name}}</td>
+                                <td style="width: 25%;" align="right">
+                                    <input type="button"  id ="button5-{{i.id}}" class="btn btn-primary"  onclick="returnLibrarianFun({{i.id}})"
+                                        value="view profile" style="margin-left:15px;"></td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="container col-8">
+                        <div class="row" id="return-librarian-{{i.id}}"  style="display:none;">
+
+                            <div class="col-sm-9">
+                                <table class="table table-success">
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Librarian Id:</strong></td>
+                                        <td style="width: 67%;">{{i.return_to.librarian_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Phone:</strong></td>
+                                        <td style="width: 67%;">{{i.return_to.phone}}</td>
+                                    </tr>
+                                    {% if i.return_to.year%}
+                                        <tr>
+                                            <td style="width: 33%;"><strong>Year:</strong></td>
+                                            <td style="width: 67%;">{{i.return_to.year}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 33%;"><strong>Department:</strong></td>
+                                            <td style="width: 67%;">{{i.return_to.department}}</td>
+                                        </tr>
+                                    {%endif%}
+                                    {% if i.return_to.email%}
+                                        <tr>
+                                            <td style="width: 33%;"><strong>E-mail:</strong></td>
+                                            <td style="width: 67%;">{{i.return_to.email}}</td>
+                                        </tr>
+                                    {%endif%}
+
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Register date:</strong></td>
+                                        <td style="width: 67%;">{{i.return_to.register_date}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="{% static i.return_to.image %}"  height="180" width="200">
+                            </div>
+                        </div>
+                </div>
+
+                {% else %}
+                <div class="container col-8">
+                    <table  class="table table-striped">
+                        <tr>
+                            <td style="width: 25%;"><strong>Return to:</strong></td>
+                            <td style="width: 75%;">The librarian is already deleted</td>
+                        </tr>
+                    </table>
+                </div>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <div class="container col-8">
+                <h5>The borrow is taken from {{i.user.sex}} user</h5><br>
+            </div>
+            <div class="container col-8">
+                <table  class="table table-primary">
+                    <tr>
+                        <td style="width: 25%;"><strong>Specific code:</strong></td>
+                        <td style="width: 75%;">{{i.specific_code}} </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+                <table  class="table table-primary">
+                    <tr>
+                        <td style="width: 25%;"><strong>Date of Borrow:</strong></td>
+                        <td style="width: 75%;">{{i.borrow_date}} </td>
+
+                    </tr>
+                </table>
+            </div>
+
+
+            <div class="container col-8">
+                <table  class="table table-primary">
+                    <tr>
+                        <td style="width: 25%;"><strong>Date of Return:</strong></td>
+                        {% if i.return_date %}
+                            <td style="width: 75%;">{{i.return_date}} </td>
+                        {% else %}
+                            <td style="color:red;width: 75%;"><strong>Not returned</strong>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+
+        {% endif %}
+
+        <div class="container col-8"><hr></div>
+        {% endfor %}
+
+
+    <script>
+    function myFunction(par) {
+    var y ="button-"+par;
+    var x = document.getElementById("user-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+
+
+function librarianFun(par) {
+    var y ="button4-"+par;
+    var x = document.getElementById("librarian-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+function returnLibrarianFun(par) {
+    var y ="button5-"+par;
+    var x = document.getElementById("return-librarian-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+
+</script>
+
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>

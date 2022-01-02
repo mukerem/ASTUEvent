@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="header-site">
+        <meta charset="UTF-8">
+            {% include "webpages/user_page.html" %}
+        {% load static %}
+        {% load filter %}
+        {% load widget_tweaks %}
+        <title>return history</title>
+
+        <link rel="stylesheet" href="{% static 'files/bootstrap/css/bootstrap.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style2.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style3.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style4.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style5.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style6.css' %}"  type="text/css" >
+        <link rel="stylesheet" href="{% static 'files/style8.css' %}"  type="text/css" >
+
+
+    </head>
+
+    <body>
+
+        <div class = "container col-4">
+        <form enctype="multipart/form-data" method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+
+                <table class="error">
+                    <tr><td>
+                        <b> {{ form.non_field_errors|error_truncate}}</b>
+                    </td></tr>
+                </table>
+            <br>
+            {% endif %}
+
+
+            {% for field in form.visible_fields %}
+                <table style="width:100%; margin-top:0px;">
+                    <tr >
+                        <td style="width:20%;" align="center">
+                            <strong>{{ field.label_tag }}</strong>
+                        </td>
+                        <td style="width:55%; vertical-align: top;">
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" %}
+                            {% for  error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+
+
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                        </td>
+                        <td style="width:25%; vertical-align: top;" align="center">
+                    <button type="submit" class = "btn btn-primary" > view</button>
+                        </td>
+                    </tr>
+                </table>
+            {% endfor %}
+
+
+        </form>
+        </div>
+
+
+        <div class="container col-8">
+            {% if date  %}
+                {% if borrow %}
+                    <br><h4>{{date}} return history</h4><br><br>
+                {% else %}
+                    <br><h4>There is no return history on {{date}}</h4><br>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% for i in borrow %}
+        <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Title:</strong></td>
+                        <td style="width: 50%;">{{i.book.title}} </td>
+                        <td style="width: 25%;" align="right">
+                            <input type="button"  id ="button-book-{{i.id}}" class="btn btn-primary"  onclick="bookFunction({{i.id}})"
+                      value="view info" ></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="container col-8">
+                <div class="row" id="book-{{i.id}}"  style="display:none;">
+
+                    <div class="col-sm-9">
+                        <table class="table table-success">
+                            <tr>
+                                <td style="width: 33%;"><strong>Author:</strong></td>
+                                <td style="width: 67%;">{{i.book.author}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 33%;"><strong>Code:</strong></td>
+                                <td style="width: 67%;">{{i.book.code}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 33%;"><strong>Page:</strong></td>
+                                <td style="width: 67%;">{{i.book.page}}</td>
+                            </tr>
+                            {% if i.book.pub_year%}
+                                <tr>
+                                    <td style="width: 33%;"><strong>Publication yea:</strong></td>
+                                    <td style="width: 67%;">{{i.book.pub_year}}</td>
+                                </tr>
+
+                            {%endif%}
+                            {% if i.book.category%}
+                                <tr>
+                                    <td style="width: 33%;"><strong>Category:</strong></td>
+                                    <td style="width: 67%;">{{i.book.category}}</td>
+                                </tr>
+                            {%endif%}
+
+                        </table>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="{% static i.book.photo %}"  height="180" width="200">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Specific code:</strong></td>
+                        <td style="width: 75%;">{{i.specific_code}} </td>
+
+                    </tr>
+                </table>
+            </div>
+
+                <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Date of Borrow:</strong></td>
+                        <td style="width: 75%;">{{i.borrow_date}} </td>
+
+                    </tr>
+                </table>
+                </div>
+            {% if i.librarian %}
+                <div class="container col-8">
+                    <table  class="table table-striped">
+                        <tr>
+                            <td style="width: 25%;"><strong>From Librarian:</strong></td>
+                            <td style="width: 50%;">{{i.librarian.name}} {{i.librarian.middle_name}}  {{i.librarian.last_name}}</td>
+                            <td style="width: 25%;" align="right">
+                                <input type="button"  id ="button4-{{i.id}}" class="btn btn-primary"  onclick="librarianFun({{i.id}})"
+                                    value="view profile" style="margin-left:15px;"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="container col-8">
+                    <div class="row" id="librarian-{{i.id}}"  style="display:none;">
+
+                        <div class="col-sm-9">
+                            <table class="table table-success">
+                                <tr>
+                                    <td style="width: 33%;"><strong>Librarian Id:</strong></td>
+                                    <td style="width: 67%;">{{i.librarian.librarian_id}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 33%;"><strong>Phone:</strong></td>
+                                    <td style="width: 67%;">{{i.librarian.phone}}</td>
+                                </tr>
+                                {% if i.librarian.year%}
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Year:</strong></td>
+                                        <td style="width: 67%;">{{i.librarian.year}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Department:</strong></td>
+                                        <td style="width: 67%;">{{i.librarian.department}}</td>
+                                    </tr>
+                                {%endif%}
+                                {% if i.librarian.email%}
+                                    <tr>
+                                        <td style="width: 33%;"><strong>E-mail:</strong></td>
+                                        <td style="width: 67%;">{{i.librarian.email}}</td>
+                                    </tr>
+                                {%endif%}
+
+                                <tr>
+                                    <td style="width: 33%;"><strong>Register date:</strong></td>
+                                    <td style="width: 67%;">{{i.librarian.register_date}}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <img src="{% static i.librarian.image %}"  height="180" width="200">
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="container col-8">
+                    <table  class="table table-striped">
+                        <tr>
+                            <td style="width: 25%;"><strong>From Librarian:</strong></td>
+                            <td style="width: 75%;">The librarian is already deleted</td>
+                        </tr>
+                    </table>
+                </div>
+            {% endif %}
+            {% if date == 'All time' %}
+                <div class="container col-8">
+                <table  class="table table-striped">
+                    <tr>
+                        <td style="width: 25%;"><strong>Date of Return:</strong></td>
+                        {% if i.return_date %}
+                            <td style="width: 75%;">{{i.return_date}} </td>
+                        {% else %}
+                            <td style="color:red;width: 75%;"><strong>Not returned</strong>
+                        {% endif %}
+                    </tr>
+                </table>
+                </div>
+            {% endif %}
+            {% if i.return_date %}
+                {% if i.return_to %}
+                <div class="container col-8">
+                        <table  class="table table-striped">
+                            <tr>
+                                <td style="width: 25%;"><strong>Return to:</strong></td>
+                                <td style="width: 50%;">{{i.return_to.name}} {{i.return_to.middle_name}}  {{i.return_to.last_name}}</td>
+                                <td style="width: 25%;" align="right">
+                                    <input type="button"  id ="button5-{{i.id}}" class="btn btn-primary"  onclick="returnLibrarianFun({{i.id}})"
+                                        value="view profile" style="margin-left:15px;"></td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="container col-8">
+                        <div class="row" id="return-librarian-{{i.id}}"  style="display:none;">
+
+                            <div class="col-sm-9">
+                                <table class="table table-success">
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Librarian Id:</strong></td>
+                                        <td style="width: 67%;">{{i.return_to.librarian_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Phone:</strong></td>
+                                        <td style="width: 67%;">{{i.return_to.phone}}</td>
+                                    </tr>
+                                    {% if i.return_to.year%}
+                                        <tr>
+                                            <td style="width: 33%;"><strong>Year:</strong></td>
+                                            <td style="width: 67%;">{{i.return_to.year}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 33%;"><strong>Department:</strong></td>
+                                            <td style="width: 67%;">{{i.return_to.department}}</td>
+                                        </tr>
+                                    {%endif%}
+                                    {% if i.return_to.email%}
+                                        <tr>
+                                            <td style="width: 33%;"><strong>E-mail:</strong></td>
+                                            <td style="width: 67%;">{{i.return_to.email}}</td>
+                                        </tr>
+                                    {%endif%}
+
+                                    <tr>
+                                        <td style="width: 33%;"><strong>Register date:</strong></td>
+                                        <td style="width: 67%;">{{i.return_to.register_date}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="{% static i.return_to.image %}"  height="180" width="200">
+                            </div>
+                        </div>
+                </div>
+
+                {% else %}
+                <div class="container col-8">
+                    <table  class="table table-striped">
+                        <tr>
+                            <td style="width: 25%;"><strong>Return to:</strong></td>
+                            <td style="width: 75%;">The librarian is already deleted</td>
+                        </tr>
+                    </table>
+                </div>
+                {% endif %}
+            {% endif %}
+
+        <div class="container col-8"><hr></div>
+        {% endfor %}
+
+
+    <script>
+    function myFunction(par) {
+    var y ="button-"+par;
+    var x = document.getElementById("user-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+
+function bookFunction(par) {
+    var y ="button-book-"+par;
+    var x = document.getElementById("book-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+function librarianFun(par) {
+    var y ="button4-"+par;
+    var x = document.getElementById("librarian-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+function returnLibrarianFun(par) {
+    var y ="button5-"+par;
+    var x = document.getElementById("return-librarian-"+par);
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+        document.getElementById(y).value="hide  profile";
+        document.getElementById(y).style.backgroundColor='#dc3545';
+    } else {
+        x.style.display = "none";
+        document.getElementById(y).value="view profile";
+        document.getElementById(y).style.backgroundColor='#007bff';
+    }
+}
+
+</script>
+    </body>
+    <footer>
+        {% include "webpages/footer.html" %}
+    </footer>
+</html>
